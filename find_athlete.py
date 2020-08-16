@@ -86,11 +86,11 @@ def find(session, birthdate, height):
     # Создадим запрос к таблице с атлетами по поиску атлета ближайшего по возрасту к пользователю
     query_athlete_1 = session.query(Athletes).order_by(func.abs(func.julianday(Athletes.birthdate) - func.julianday(birthdate))).first()
     # Создадим запрос к таблице с атлетами по поиску атлета ближайшего по росту
-    query_athlete_2 = session.query(Athletes).order_by(func.abs(Athletes.height - height)).first()
+    query_athlete_2 = session.query(Athletes).filter(Athletes.height != None).order_by(func.abs(Athletes.height - height)).first()
 
     # Выведем результаты
-    print("Ближайший атлет по возрасту к пользователю: {} из {}".format(query_athlete_1.name, query_athlete_1.country))
-    print("Ближайший атлет по росту к пользователю: {} из {}".format(query_athlete_2.name, query_athlete_2.country))
+    print("Ближайший атлет по возрасту к пользователю атлет: {} из {} рожденный - {}".format(query_athlete_1.name, query_athlete_1.country, query_athlete_1.birthdate))
+    print("Ближайший атлет по росту к пользователю: {} из {} с ростом {}".format(query_athlete_2.name, query_athlete_2.country, query_athlete_2.height))
 
 def main():
     """
